@@ -7,7 +7,7 @@ const int buttonPin = 3;                    //initializes the buttonPin variable
 unsigned long lastDisplaySwitch = millis(); //initializes the lastDisplaySwitch as an unsigned long variable
 const int DISPLAY_DELAY = 250;              //initializes the DISPLAY_DELAY variable as a constant integer of 250
 //Tachometer Setup
-const int interruptPin = 2;                 //initializes the interruptPin as a constant integer 
+const int interruptPin = 2;                 //initializes the interruptPin as a constant integer
 
 int breakCount = 0;                         //initializes the breakCount variable as an integer
 unsigned long startTime = 0;                //initializes the startTime variable as an unsigned long
@@ -21,7 +21,7 @@ float eff;                                  //Creates a variable of type float n
 
 
 void setup() {
-  //LCD 
+  //LCD
   lcd.begin(16,2);                          //Tells the LCD screen to use 2 rows of 16 spaces for the screen
   lcd.display();                            //Tells the LCD to display
 
@@ -31,7 +31,7 @@ void setup() {
   Serial.begin(9600);                       //Tells the program when to begin using the serial monitor
   pinMode( interruptPin, INPUT);            //Tells the computer which Arduino pin to use for the tachometer
   attachInterrupt (digitalPinToInterrupt (interruptPin), broken, FALLING); //makes it to where the screen can change what it is displaying
-  
+
 
 }
 
@@ -39,19 +39,19 @@ void loop() {
     //Tachometer
     if(breakCount >= 30) {                   //if statement stating that if the number of times the light was broken is greater than or equal to 30 the program should continue into the if statement
     endTime = millis();                      //Puts the endTime in milliseconds
-    
+
     float rev;                               //intializes rev variable as a float
     float revTime;                           //initializes revTime variable as a float
     float totaltime;                         //initializes totaltime variable as a float
     rev = (float)breakCount / 4.0;           //casts breakCount as a float and calculates revolutions
-    totaltime = ((float)endTime-(float)startTime)/60000.0;//calculates the total time while casting endTime and startTime as floats and converting to minutes from milliseconds            
-    rpm = (rev/(totaltime));                 //calculates the rpm                                          
-    breakCount = 0;                          //resets breakCount to 0                                                  
-  
+    totaltime = ((float)endTime-(float)startTime)/60000.0;//calculates the total time while casting endTime and startTime as floats and converting to minutes from milliseconds
+    rpm = (rev/(totaltime));                 //calculates the rpm
+    breakCount = 0;                          //resets breakCount to 0
+
   //LCD
   delay(1000);                               //Delays the display showing a value so as to allow the display a chance to actually see the value it is meant to show
   displayLCD();                              //calls the displayLCD function
-    
+
   //Power Output
   nout = 8*rpm;                              //calculates the nout variable by multiplying the ratio of the gears by the rpm
   torqueOut = (-.025*nout + 320.04);         //calculates the torque using a function found using the torque curves and converting to the correct units
@@ -59,7 +59,7 @@ void loop() {
   if (torqueOut <= 48) {                     //if statement telling the program which function to use depending on the torque output
     effM = ((-.002)*(torqueOut*torqueOut))-(.4*torqueOut)+49.4; //calculations for the efficiency of the motor
   }
-  if (torqueOut > 48) {                      //second function available for use 
+  if (torqueOut > 48) {                      //second function available for use
     effM = ((-.0004)*(torqueOut*torqueOut))+(.2*torqueOut)+.0008; //calculations for efficiency of the motor if the torque is greater than 48
   }
   powerIn = ((-.0004)*(torqueOut*torqueOut))+(.14*torqueOut)+.0007; //calculations for power in for the motor
